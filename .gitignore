@@ -1,0 +1,12 @@
+# Build output
+*.o
+game
+
+# Runtime data
+highscores.txt
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+*~
