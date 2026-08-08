@@ -2,7 +2,7 @@
 
 <h1>🚕 Rush Hour</h1>
 
-<h3>A 2D C++ driving game built around OOP, task-based scoring, and dynamic city traffic</h3>
+<h3>OOP-driven C++ arcade game with dynamic traffic, two playable roles, fuel management, and persistent scores</h3>
 
 <p>
   <img src="https://img.shields.io/badge/C%2B%2B-OOP-00599C?logo=cplusplus&logoColor=white" alt="C++" />
@@ -24,7 +24,7 @@ Rush Hour is a graphical driving game played on a 26 × 26 tile city grid. Roads
 
 You can start as either a Taxi Driver or Delivery Driver and complete role-specific jobs for points and fare money.
 
-🚖 Taxi Driver
+🚖 Taxi Driver Mode
 
 Pick up passengers from road tiles
 
@@ -36,7 +36,7 @@ Receive a randomly generated fare in your wallet
 
 Lose fewer points than the Delivery Driver when colliding with traffic or obstacles
 
-📦 Delivery Driver
+📦 Delivery Driver Mode
 
 Pick up packages placed near buildings
 
@@ -48,7 +48,7 @@ Receive a randomly generated fare in your wallet
 
 Take larger collision penalties in exchange for the higher job reward
 
-Game Flow
+🔄 Game Flow
 
 flowchart LR
     A[Choose role] --> B[Drive through city]
@@ -63,7 +63,7 @@ flowchart LR
     I -- No --> B
     I -- Yes --> J[Leaderboard + result]
 
-Controls
+🎮 Controls
 
 Input
 
@@ -103,9 +103,11 @@ Restart after game over
 
 🧠 How It Works
 
+A look at the main systems behind the game: the object model, city generation, traffic, fuel, and score persistence.
+
 The project is centered around an object-oriented hierarchy of game entities. A common abstract base class stores position and defines the drawing interface, while specialized classes implement their own behavior.
 
-Object Model
+🧱 Object Model
 
 classDiagram
     class itemsonboard {
@@ -139,13 +141,13 @@ classDiagram
 
 The Board class manages the active player and collections of cars, passengers, packages, fuel stations, and obstacles. The Game class manages higher-level state such as menus, timing, themes, refueling, the leaderboard, and game-over logic.
 
-City Generation and Reachability
+🗺️ City Generation & Reachability
 
 The board reserves regular road lines and fills part of the remaining grid with buildings. Game entities are then placed on valid road positions.
 
 Before some passenger/package positions are accepted, the game runs a depth-first search (DFS) over the road grid to make sure the location is reachable rather than placing a task in an isolated part of the map.
 
-Traffic and Difficulty
+🚗 Traffic & Difficulty Scaling
 
 The game begins with moving traffic cars that update independently from the player. Cars follow valid road tiles and change direction when their current route becomes blocked.
 
@@ -157,7 +159,7 @@ existing traffic cars have their movement speed increased
 
 This makes the city progressively harder as the player succeeds.
 
-Fuel and Wallet System
+⛽ Fuel & Wallet System
 
 The player starts with 500 fuel units, and moving one tile consumes one unit.
 
@@ -169,11 +171,11 @@ the amount of money currently available in the wallet
 
 The HUD shows the current fuel numerically and through a visual tank that changes from green to orange and red as fuel falls.
 
-Leaderboard
+🏆 Leaderboard & Persistence
 
 The game stores up to 10 leaderboard entries in highscores.txt using binary file operations. New scores are inserted into descending order before the leaderboard is saved again.
 
-🏁 Scoring and End Conditions
+🏁 Scoring & Game Rules
 
 A game lasts up to 180 seconds (3 minutes).
 
@@ -211,7 +213,9 @@ score falls below zero
 
 A final score of 100 or more is treated as a win on the game-over screen.
 
-📊 Complexity
+📊 Algorithmic Complexity
+
+The game uses bounded collections for most entities, while DFS-based reachability is the main grid-search operation.
 
 Most entity collections have small fixed maximum sizes, so their scans are effectively inexpensive during normal gameplay. The grid traversal used for reachability is the main algorithmic operation worth calling out.
 
@@ -281,14 +285,16 @@ Build configuration
 
 🚀 Getting Started
 
+Build and run the game locally on Linux/Ubuntu using the existing Makefile.
+
 The current build configuration targets Linux / Ubuntu.
 
-1. Clone the Repository
+Step 1 — Clone the Repository
 
 git clone https://github.com/fizzahussain/RushHour-game.git
 cd RushHour-game
 
-2. Install Dependencies
+Step 2 — Install Dependencies
 
 On Ubuntu/Debian:
 
@@ -305,11 +311,11 @@ sudo apt install \
 
 [!NOTE]The repository also includes its original install-libraries.sh helper. The command above lists the libraries referenced by the current Makefile, including SDL2 and SDL2_mixer.
 
-3. Build
+Step 3 — Build the Game
 
 make
 
-4. Run
+Step 4 — Run the Game
 
 ./game
 
@@ -338,10 +344,10 @@ RushHour-game/
 
 highscores.txt is created/updated at runtime when leaderboard scores are saved.
 
-🔍 Technical Notes
+🔍 Technical Documentation
 
 For a deeper walkthrough of the class hierarchy, board generation, DFS reachability, traffic updates, role switching, fuel system, and leaderboard persistence, see docs/TECHNICAL.md.
 
-📌 About the Project
+📌 Project Background
 
 Rush Hour was developed as an Object-Oriented Programming course project. It combines inheritance, abstraction, polymorphism, composition, dynamic allocation, graphical event handling, collision checks, file persistence, audio, and game-state management in one playable C++ application.
